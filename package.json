@@ -1,0 +1,41 @@
+{
+  "name": "artty.js-lab",
+  "version": "1.0.0",
+  "description": "Artty.js and Babel lab",
+  "main": "index.js",
+  "repository": "https://github.com/bronystylecrazy/artty.js-lab.git",
+  "author": "Mr.SIRAWIT PRATOOMSUWAN <48322519+bronystylecrazy@users.noreply.github.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "babel ./index.js --out-file ./dist/compiled.js"
+  },
+  "dependencies": {
+    "@babel/cli": "^7.15.4",
+    "@babel/generator": "^7.15.4",
+    "@babel/parser": "^7.15.4",
+    "@babel/plugin-syntax-jsx": "^7.14.5",
+    "@babel/plugin-transform-modules-commonjs": "^7.15.4",
+    "@babel/plugin-transform-react-jsx": "^7.14.9",
+    "@babel/plugin-transform-runtime": "^7.15.0",
+    "@babel/preset-env": "^7.15.4",
+    "@babel/template": "^7.15.4",
+    "@babel/traverse": "^7.15.4",
+    "@babel/types": "^7.15.4"
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ],
+    "plugins": [
+      [
+        "@babel/plugin-transform-react-jsx",
+        {
+          "pragma": "h"
+        }
+      ],
+      [
+        "./src/index.js"
+      ]
+    ]
+  }
+}
