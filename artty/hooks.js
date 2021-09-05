@@ -7,7 +7,6 @@ var hello= (function(){
                 if(val !== newVal){
                     val = newVal;
                     console.log('UPDATE')
-                    
                 }
             }
             return [val, setState];
