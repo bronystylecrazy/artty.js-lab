@@ -6,6 +6,7 @@ export default function App(){
     var [message, setMessage] = useState("Art Sirawit");
     var [show,setShow] = useState(true);
     var [todos, setTodos] = useState(["Hiii!"]);
+    var hello = message.toUpperCase();
 
     var save = function(){
         if(message.trim() === "") return false;
@@ -16,7 +17,7 @@ export default function App(){
     return <div class="hello">
        <h1>Artty.js</h1>
        <h4 style={`color: ${message}`}>
-        Hello, {message}
+        Hello, {message} {hello}
        </h4>
 
         <b>Todo list ({ todos.length }): <input type="checkbox" checked={show}  onInput={() => setShow(!show)}/></b><br/>

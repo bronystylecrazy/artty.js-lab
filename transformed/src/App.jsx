@@ -6,6 +6,7 @@ export default function App() {
   var [message, setMessage] = useState("Art Sirawit");
   var [show, setShow] = useState(true);
   var [todos, setTodos] = useState(["Hiii!"]);
+  var hello = message.toUpperCase();
 
   var save = function () {
     if (message.trim() === "") return false;
@@ -17,7 +18,7 @@ export default function App() {
     class: "hello"
   }, h("h1", null, "Artty.js"), h("h4", {
     style: `color: ${message}`
-  }, "Hello, ", message), h("b", null, "Todo list (", todos.length, "): ", h("input", {
+  }, "Hello, ", message, " ", hello), h("b", null, "Todo list (", todos.length, "): ", h("input", {
     type: "checkbox",
     checked: show,
     onInput: () => setShow(!show)
