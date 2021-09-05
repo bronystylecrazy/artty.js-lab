@@ -25,7 +25,7 @@ export const useState = (value) => {
         }
     };
 
-    options._hooks[hook_id] = observe(hook, { deep: true });;
+    options._hooks[hook_id] = observe(hook, { deep: false });;
     hook_id++;
     return [ hook.value, hook.setValue ];
 }

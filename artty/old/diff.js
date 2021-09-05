@@ -11,14 +11,11 @@ export const zip = (xs, ys) => {
 
 export const diffEvent = (vNode,vOldOn, vNewOn) => {
     const patches = [];
-    for (const k in vOldOn) {
-        if(!(k.trim() in vNewOn)) {
-            patches.push($node => {
-                removeAllListeners($node,k.trim());
-                return $node;
-            });
-        }
-    }
+    // for (const k in vOldOn) {
+    //     if(!(k.trim() in vNewOn)) {
+            
+    //     }
+    // }
 
     // for (const [k, v] of Object.entries(vNewOn)) {
     //     patches.push($node => {
@@ -46,10 +43,26 @@ export const diffAttribute = (vNewNode,vOldAttr, vNewAttr) => {
     for (const [k, v] of Object.entries(vNewAttr)) {
        patches.push($node => {
             try{
-                // if(['value','checked'].includes(k.trim().toLowerCase())){
-                //     $node[k] = v;
-                // }else
+                if(['value','checked'].includes(k.trim().toLowerCase())){
+                    $node[k] = v;
+                }else{
+                    if(k.startsWith('on')){
+                        patches.push($node => {
+                            addListener($node,k.slice(2).toLowerCase(), () => {});
+                            removeAllListeners($node,k.slice(2).toLowerCase());
+                            addListener($node,k.slice(2).toLowerCase(),function($event){
+                                if(typeof v !== 'function') return false;
+                                var c = v.call($event.target,$event);
+                                if(typeof c === 'function'){
+                                    c.call($event.target,$event);
+                                }
+                            });
+                            return $node;
+                        });
+                        
+                    }else
                     $node.setAttribute(k, v);
+                }
             }catch(e){ 
                 // console.error(`invalid directive name ${k}`, e.message);
             }
@@ -60,8 +73,8 @@ export const diffAttribute = (vNewNode,vOldAttr, vNewAttr) => {
     for (const k in vOldAttr) {
         if(!(k in vNewAttr)) {
             patches.push($node => {
-                // if(['value','checked'].includes(k.trim().toLowerCase()))
-                //     $node[k] = "";
+                if(['value','checked'].includes(k.trim().toLowerCase()))
+                    $node[k] = "";
                 $node.removeAttribute(k);
                 return $node;
             });
@@ -122,8 +135,9 @@ export const diff = (vOldNode, vNewNode) => {
         };
     }
 
-    if(typeof vOldNode === 'string' || typeof vNewNode === 'string'){
+    if((typeof vOldNode === 'string' || typeof vOldNode === 'number') || (typeof vNewNode === 'string'|| typeof vNewNode === 'number')){
         if(vOldNode !== vNewNode){
+            console.log('updated!')
             return $node => {
                 const $newNode = render(vNewNode);
                 $node.replaceWith($newNode);
@@ -136,15 +150,14 @@ export const diff = (vOldNode, vNewNode) => {
 
     if(vOldNode.tag !== vNewNode.tag){
         return $node => {
-            $newNode = render(vNewNode)
+            const $newNode = render(vNewNode)
             $node.replaceWith($newNode);
             return $newNode;
         };
     }
-
     const patchChildren = diffChildren(vOldNode.children, vNewNode.children);
-    const patchAttribute = diffAttribute(vNewNode,vOldNode.attrs, vNewNode.attrs);
-    // const patchEvent = diffEvent(vNewNode,vOldNode.opts.on, vNewNode.opts.on);
+    const patchAttribute = diffAttribute(vNewNode,vOldNode.attrs == null ? {} : vOldNode.attrs , vNewNode.attrs  == null ? {} : vNewNode.attrs);
+    // const patchEvent = diffEvent(vNewNode,vOldNode.attrs.filter(e => ).on, vNewNode.opts.on);
     return $node => {
         patchAttribute($node);
         patchChildren($node);

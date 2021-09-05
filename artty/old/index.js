@@ -6,6 +6,7 @@ import options from './options'
 // import handlers from './handlers'
 
 const h = (tag, attrs, ...children) => {
+    if(typeof tag === 'undefined') return "";
     if(typeof tag === 'function') return tag({ attrs, children });
     const vNode = { tag, attrs, children: children.flat()}
     return vNode;
@@ -45,21 +46,19 @@ const isNull   = test => typeof test === 'null',
       notNullObject = obj => typeof obj !== 'null' ? obj || {} : {};
 
 const sync = (vNode, $target) => {
-    
-    var vApp = h(vNode);
+    options.setHookId(0);
+    var vApp = h(vNode, {});
     var $app = render(vApp);
     var $root = mount($app, $target);
 
     computed(() => {
-        for(var [hook, meta] of Object.entries(options._hooks)){
-            const { value } = meta;
-        }
+        for(var [hook, meta] of Object.entries(options._hooks)) 
+            meta.value;
 
-        let vNewApp = h(vNode);
         options.setHookId(0);
-        vApp = h(vNode);
-        // const patch = diff(vApp,vNewApp);
-        console.log(vApp,vNewApp);
+        let vNewApp = h(vNode, {});
+        const patch = diff(vApp,vNewApp);
+        $root = patch($root);
         vApp = vNewApp;
     });
     

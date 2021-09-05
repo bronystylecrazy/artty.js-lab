@@ -3,17 +3,31 @@ import { useState } from '@artty/hooks';
 import options from '../artty/old/options';
 
 export default function App(){
-    var [message, setMessage] = useState("HEllo");
-    var [count, setCount] = useState(0);
-    var increase = function(){
-        // setMessage("ISASASS");
-        setCount(count => count + 1);
+    var [message, setMessage] = useState("Art Sirawit");
+    var [show,setShow] = useState(true);
+    var [todos, setTodos] = useState(["Hiii!"]);
+
+    var save = function(){
+        if(message.trim() === "") return false;
+        setTodos([...todos, message]);
+        setMessage("");
     }
 
     return <div class="hello">
-        {/* <input type="text" onInput={(e) => message.value = e.target.value} /> */}
-        <h1> Id: {message} {count}</h1>
-        <h1 style="color: red" onClick={ ($event) => increase.call($event) }>Welcome to Artty.js!</h1>
-        <Hello say="Sirawit"/>
+       <h1>Artty.js</h1>
+       <h4 style={`color: ${message}`}>
+        Hello, {message}
+       </h4>
+
+        <b>Todo list ({ todos.length }): <input type="checkbox" checked={show}  onInput={() => setShow(!show)}/></b><br/>
+        <ul $if={show}>
+            <li $for={n in todos} style={`color: ${n}`}>{n}</li>
+        </ul><br/>
+
+       <input type="text" value={message} onKeyDown={($event) => {
+           if($event.which === 13) save()
+       }} onInput={$e => setMessage($e.target.value)} />
+       <button onClick={save}>Add</button><button onClick={() => setTodos([])}>clear</button>
+
     </div>;
 }
