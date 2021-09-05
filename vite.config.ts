@@ -12,7 +12,7 @@ export default defineConfig({
     plugins: [ViteArtty()],
     resolve: {
         alias: {
-            '@artty': path.resolve(__dirname, './artty/')
+            '@artty': path.resolve(__dirname, './artty/old')
         }
     }
 });

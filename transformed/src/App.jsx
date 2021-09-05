@@ -1,12 +1,13 @@
 import { h, $f, _ } from '@artty';
 import Hello from "./components/Hello";
-import $ from "@artty/hooks";
+import { useState } from "@artty/hooks";
+import options from "../artty/old/options";
 export default function App() {
-  var [message, setMessage] = $.useState("HEllo");
-  var [count, setCount] = $.useState("Sirawit");
+  var [message, setMessage] = useState("HEllo");
+  var [count, setCount] = useState(0);
 
   var increase = function () {
-    setMessage("ISASASS");
+    setCount(count2 => count2 + 1);
   };
 
   return h("div", {
