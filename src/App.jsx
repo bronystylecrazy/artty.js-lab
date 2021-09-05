@@ -1,21 +1,14 @@
-export default function App(){
-    var show = false;
-    var hello = "Message!";
+import Hello from './components/Hello';
 
-    let IfDirective = <b id="64" class={85} $if={!show}>Sirawit</b>;
-    let ForDirective1 = <b $for={ n in Object.keys(hello)}>{n}</b>
-    let ForDirective2 = <b $for={(n,idx) in 3}>{n}</b>
+export default function App({ attrs }){
+    var x = 0;
+    var increase = () => {
+        x = x + 1;
+    }
 
-    let Hello =  show ? ForDirective1 : ForDirective2 ;
-
-    return <>
-        <h1>Welcome to Artty.js</h1>
-        {Hello}
-        <IfDirective/>
-        <ForDirective1/>
-        <ForDirective2/>
-        <ul $if={show}>
-            <li $for={ n in hello.split("HEllo")}> This li number #{n}</li>
-        </ul>
-    </>;
+    return <div>
+        <h1> Id: {attrs.id}</h1>
+        <h1 style="color: red" onClick={ increase }>Welcome to Artty.js!</h1>
+        <Hello say="Sirawit"/>
+    </div>;
 }
