@@ -5,7 +5,7 @@ export default defineConfig({
     esbuild: {
         jsxInject: `import {h, $f, _} from '../artty'`,
         jsxFactory: 'h',
-        jsxFragment: 'f',
+        jsxFragment: '$f',
     },
     plugins: [ViteArtty()]
 });

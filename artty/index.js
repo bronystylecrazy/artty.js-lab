@@ -1,14 +1,12 @@
+const FRAGMENT = -1;
+
 const h = (tag, attrs, ...children) => {
-    if(typeof tag === 'object') return tag(attrs,);
-    if(tag === -1){
-        return children;
-    }
-    return { tag, attrs, children };
+    if(typeof tag === FRAGMENT) return children.flat();
+    if(typeof tag === 'function') return tag(attrs);
+    return { tag, attrs, children: children.flat() };
 }
 
-const $f = () => {
-    return 
-};
+const $f = FRAGMENT;
 
 const _ = {
     L: (expression, cb) => {
@@ -29,8 +27,13 @@ const _ = {
     }
 };
 
+const render = (app, $el) => {
+
+}
+
 export {
     h,
     $f,
-    _
+    _,
+    render
 };
