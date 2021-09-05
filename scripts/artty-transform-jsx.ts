@@ -2,7 +2,7 @@ import { BabelFileResult, NodePath, transformSync } from '@babel/core';
 import chalk from 'chalk';
 import * as t from '@babel/types';
 export default function Artty(sourcecode: string){
-    let code = sourcecode;
+    let code = sourcecode.split("/* @__PURE__ */").join("");
     let output : BabelFileResult | null = transformSync(code, {
         plugins: [
             function ArttyTransform() {
@@ -71,7 +71,7 @@ export default function Artty(sourcecode: string){
                                         }else if(t.isSequenceExpression(foundKey?.value?.left)){
                                             console.log("Expression for");
                                             console.log(foundKey.value.left)
-                                            console.log(foundKey.value.left.expressions)
+                                            console.log(foundKey.value.left.expression)
                                             path.replaceWith(
                                                 t.callExpression(t.identifier('_.L'),[
                                                     t.parenthesizedExpression(foundKey.value.right),

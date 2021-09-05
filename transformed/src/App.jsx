@@ -1,32 +1,16 @@
 import { h, f, _ } from '../artty';
-
-function Sirawit({
-  props
-}) {
-  return /* @__PURE__ */h(f, null, /* @__PURE__ */h("h1", null, "This is Sirawit"), /* @__PURE__ */h("h4", null, "Description hello!"), {
-    $if: n + 1 === 2
-  }, /* @__PURE__ */h("ul", null, [1, 2, 3, 4].map(e => /* @__PURE__ */h("ul", null, e))));
-}
-
 export default function App() {
-  let show = false;
-  let NULL = /* @__PURE__ */(10) ? h(Fragment, {}, /* @__PURE__ */h("b", null, "Hello World")) : h();
-  let IfDirective = /* @__PURE__ */(!show) ? h("b", {
+  let IfDirective = (!show) ? h("b", {
     id: "64",
     class: 85
   }, "Sirawit") : h();
 
-  let ForDirective1 = /* @__PURE__ */_.L((Object.keys(hello)), n => h("b", {}, n));
+  let ForDirective1 = _.L((Object.keys(hello)), n => h("b", {}, n));
 
-  let ForDirective2 = /* @__PURE__ */_.L((100), (n, idx) => h("b", {}, n));
+  let ForDirective2 = _.L((100), (n, idx) => h("b", {}, n));
 
-  let ModelDirective = /* @__PURE__ */h("input", {
-    onClick: "hello",
-    dangerouslySetInnerHTML: {
-      __html: "Hello"
-    }
-  });
-  return /* @__PURE__ */h("b", null, "Hello ", hello, " ", /* @__PURE__ */h(Sirawit, {
-    hello: n
-  }));
+  return h(f, null, h("h1", null, "Welcome to Artty.js"), h(IfDirective, null), h(ForDirective1, null), h(ForDirective2, null), (show) ? h("ul", {}, h("li", {
+    $for: n in [1, 2, 3, 4, 5],
+    key: n
+  }, " This li number #", n)) : h());
 }
