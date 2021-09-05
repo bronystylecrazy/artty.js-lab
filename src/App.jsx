@@ -10,7 +10,7 @@ export default function App(){
         <ForDirective1/>
         <ForDirective2/>
         <ul $if={show}>
-            <li $for={ n in [1,2,3,4,5]} key={n}> This li number #{n}</li>
+            <li $for={ n in Object.keys(hello)}> This li number #{n}</li>
         </ul>
     </>;
 }

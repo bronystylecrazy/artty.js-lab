@@ -3,6 +3,7 @@ import path from 'path';
 import Artty from './artty-transform-jsx';
 
 export default function viteArtty(){
+    console.clear();
     return {
         name: "vite-artty",
         transform(code: string, id: string){
@@ -10,7 +11,7 @@ export default function viteArtty(){
             if(!['.js','.jsx'].includes(path.extname(id))) return;
             let transformed = Artty(code);
             let writeTo = path.join('./transformed/',path.relative(__dirname, id).replace('..\\',''));
-            console.log('path---->',writeTo.substring(0, writeTo.lastIndexOf("\\")));
+            // console.log('path---->',writeTo.substring(0, writeTo.lastIndexOf("\\")));
             fs.mkdirSync(writeTo.substring(0, writeTo.lastIndexOf("\\")),{recursive: true});
             fs.writeFileSync(writeTo,transformed?.code,'utf-8');
             return transformed;

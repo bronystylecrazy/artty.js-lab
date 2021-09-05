@@ -9,12 +9,15 @@ export default function Artty(sourcecode: string){
               return {
                 visitor: {
                     CallExpression(path: NodePath){
+                        
                         if(path.node.callee.name !== 'h') return;
-                        try{
-                            var hName = path.node.callee.name;
-                            var arg = path.node.arguments;
+                        var hName = path.node.callee.name;
+                        var arg = path.node.arguments;
+                        var tagName = !!path.node.arguments[0] ? path.node.arguments[0].value : null;
+                        
                             /// $if
                             (function(){
+                                try{
                             var foundKey = path.node.arguments[1].properties.find(e => e.key.name === '$if')
                             if(!!foundKey){
                                 if(foundKey.key.name === '$if'){
@@ -37,13 +40,15 @@ export default function Artty(sourcecode: string){
                                         )
                                     );
                                 }
-                                console.log('found ---->', !!foundKey ? true : false)
-                                path.skip();
-                            }
+                                console.log('found ----> $if', !!foundKey ? true : false)
+                                // path.skip();
+                                }
+                            }catch(e){ console.log(`\n $if ${tagName}`+chalk.red(e.message))}
                             })();
 
                             /// $for
                             (function(){
+                                try{
                                 var foundKey = path.node.arguments[1].properties.find(e => e.key.name === '$for')
                                 if(!!foundKey){
                                     if(foundKey.key.name === '$for'){
@@ -69,9 +74,6 @@ export default function Artty(sourcecode: string){
                                                 ])
                                             );
                                         }else if(t.isSequenceExpression(foundKey?.value?.left)){
-                                            console.log("Expression for");
-                                            console.log(foundKey.value.left)
-                                            console.log(foundKey.value.left.expression)
                                             path.replaceWith(
                                                 t.callExpression(t.identifier('_.L'),[
                                                     t.parenthesizedExpression(foundKey.value.right),
@@ -79,14 +81,14 @@ export default function Artty(sourcecode: string){
                                                 ])
                                             );
                                         }
-                                        console.log(foundKey.value.right);
                                     }
-                                    console.log('found ---->', !!foundKey ? true : false)
+                                    console.log('found ----> $for ' + tagName + ',' + hName , !!foundKey ? true : false)
                                     path.skip();
                                 }
+                            }catch(e){ console.log(`\n $for ${tagName}`+chalk.red(e.message))}
                                 })();
 
-                        }catch(e){ console.log(' \n'+chalk.red(e.message))}
+                       
                     },
                     // ObjectExpression(path: NodePath) {
                     //     if(path.parentPath?.isCallExpression()){

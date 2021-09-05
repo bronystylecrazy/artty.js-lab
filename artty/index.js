@@ -6,7 +6,9 @@ const h = (tag, attrs, ...children) => {
     return { tag, attrs, children };
 }
 
-const f = -1;
+const $f = () => {
+    return 
+};
 
 const _ = {
     L: (expression, cb) => {
@@ -29,6 +31,6 @@ const _ = {
 
 export {
     h,
-    f,
+    $f,
     _
 };
