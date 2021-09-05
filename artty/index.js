@@ -1,7 +1,8 @@
 import { render } from './render';
 import { computed } from './computed';
 import { diff } from './diff';
-import { state } from './hooks';
+// import { _state } from './hooks';
+// import handlers from './handlers'
 
 const h = (tag, attrs, ...children) => {
     if(typeof tag === 'function') return tag({ attrs, children });
@@ -43,15 +44,24 @@ const isNull   = test => typeof test === 'null',
       notNullObject = obj => typeof obj !== 'null' ? obj || {} : {};
 
 const sync = (vNode, $target) => {
+    
     var vApp = vNode;
     var $app = render(vApp);
     var $root = mount($app, $target);
-
+    // _state.__handler(() => {
+    //     console.log('update');
+    // })
+    // console.log(_state)
     computed(() => {
-        // let state = state;
+        // for(var vm of _state){
+        //     let {value} = vm;
+        //     // console.log(value)
+        // }
+        // console.log(value)
         let vNewApp = vNode;
+        console.log(vNode);
         // const patch = diff(vApp,vNewApp);
-        console.log('Updated!', state)
+        // console.log('Updated!', value)
         vApp = vNewApp;
     });
     
